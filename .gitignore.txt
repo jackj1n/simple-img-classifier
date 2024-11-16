@@ -1,0 +1,11 @@
+# Ignore model files
+*.pth
+
+# Ignore data directory
+data/
+
+# Other commonly ignored files
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
