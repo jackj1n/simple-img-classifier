@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-import torchvision
 import os
 from data import load_data
 
@@ -12,7 +11,7 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         
         self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(32)
+        self.bn1 = nn.BatchNorm2d(32)   # Batch normalization to stabilize training and reduce sensitivity
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(64)
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
@@ -33,7 +32,7 @@ class CNN(nn.Module):
         x = torch.randn(1, 3, 32, 32)  # CIFAR-10 input size: 3x32x32
         x = self.pool(F.relu(self.bn1(self.conv1(x))))  # conv1 + bn1 + relu + pool
         x = self.pool(F.relu(self.bn2(self.conv2(x))))  # conv2 + bn2 + relu + pool
-        x = F.relu(self.bn3(self.conv3(x)))            # conv3 + bn3 + relu
+        x = F.relu(self.bn3(self.conv3(x)))             # conv3 + bn3 + relu
         self._to_linear = x.numel()  # Flattened size: total number of elements in the tensor
 
     def forward(self, x):
